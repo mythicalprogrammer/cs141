@@ -1,0 +1,250 @@
+// CS-141 Lab 9 sample solution for DFS traversal - class implementations
+
+#include "graph.h"
+
+using namespace std;
+
+///////////////////////////////////////////////////////////////////////////////
+// Vertex class
+
+// Constructor takes a label and a weight for the new vertex
+Vertex::Vertex(int label, double weight)
+{
+  this->label = label;
+  this->weight = weight;
+  visited = false;
+}
+
+// Mark the vertex as visited
+void Vertex::markVisited()
+{
+  visited = true;
+}
+
+double Vertex::get_weight() const
+{
+  return weight;
+}
+
+// Return true if the vertex has been visited, or false otherwise
+bool Vertex::isVisited() const
+{
+  return visited;
+}
+
+// Add the edge e to the adjacency list for this vertex
+void Vertex::addIncidentEdge(Edge *e)
+{
+  adjacentEdges.push_back(e);
+}
+
+// Return an iterator over all edges incident upon this vertex
+EdgeIterator Vertex::incidentEdges()
+{
+  return EdgeIterator(adjacentEdges);
+}
+
+// Output the vertex as its label
+ostream& operator<<(ostream& out, const Vertex& v)
+{
+  out << v.label;
+  return out;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Edge class
+
+// Constructor takes "from" vertex and "to" vertex for the new edge
+Edge::Edge(Vertex *from, Vertex *to)
+{
+  this->from = from;
+  this->to = to;
+  visited = false;
+}
+
+// Mark the edge as visited
+void Edge::markVisited()
+{
+  visited = true;
+}
+
+// Return true if the edge has been visited, or false otherwise
+bool Edge::isVisited() const
+{
+  return visited;
+}
+
+// Return the vertex on the other side of the edge
+Vertex* Edge::opposite(Vertex *v)
+{
+  if (v == from)
+    return to;
+
+  if (v == to)
+    return from;
+
+  cerr << "Vertex " << *v << " not on edge " << *this << "!\n";
+  return NULL;
+}
+
+// Output the edge as fromVertex -> toVertex
+ostream& operator<<(ostream& out, const Edge& e)
+{
+  out << *e.from << " -> " << *e.to;
+  return out;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// EdgeIterator class
+
+// Constructor takes the list of edges over which to iterate
+EdgeIterator::EdgeIterator(list<Edge *> &edges)
+{
+  i = edges.begin();
+  end = edges.end();
+}
+
+// Return true if another edge remains to be returned, or false otherwise
+bool EdgeIterator::hasNext() const
+{
+  return i != end;
+}
+
+// Return the next edge and increment the iterator
+Edge *EdgeIterator::nextEdge()
+{
+  if (i == end)
+  {
+    cerr << "No next edge!\n";
+    return NULL;
+  }
+
+  Edge *next = *i;
+  ++i;
+
+  return next;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Graph class
+
+// Destructor frees allocated memory for the graph
+Graph::~Graph()
+{
+  // Free all edges
+  for (list<Edge *>::iterator i = edges.begin(); i != edges.end(); ++i)
+    delete *i;
+
+  // Free all vertices
+  for (hash_map<int, Vertex *>::iterator i = vertices.begin();
+       i != vertices.end();
+       ++i)
+    delete i->second;
+}
+
+// Add the vertex with the given label and weight to the graph
+void Graph::addVertex(int label, double weight)
+{
+  if (vertices.find(label) == vertices.end())
+    vertices[label] = new Vertex(label, weight);
+  else
+    cerr << "Vertex " << label << " already present in graph!\n";
+}
+
+// Add an edge from vertex with label "from" to vertex with label "to"
+void Graph::addEdge(int from, int to)
+{
+  // Verify "from" vertex exists
+  hash_map<int, Vertex *>::iterator from_ptr = vertices.find(from);
+  if (from_ptr == vertices.end())
+  {
+    cerr << "'From' vertex " << from << " not found in graph!\n";
+    return;
+  }
+
+  // Verify "to" vertex exists
+  hash_map<int, Vertex *>::iterator to_ptr = vertices.find(to);
+  if (to_ptr == vertices.end())
+  {
+    cerr << "'To' vertex " << to << " not found in graph!\n";
+    return;
+  }
+
+  // Create new edge and add it to the list of edges
+  Edge *e = new Edge(from_ptr->second, to_ptr->second);
+  edges.push_back(e);
+
+  // Update adjacency lists for affected vertices
+  from_ptr->second->addIncidentEdge(e);
+  to_ptr->second->addIncidentEdge(e);
+}
+
+// Run DFS traversal, starting at vertex with label s
+void Graph::dfsTraversal(int s)
+{
+  // Find starting vertex and verify that it exists
+  hash_map<int, Vertex*>::iterator start_ptr = vertices.find(s);
+  if (start_ptr == vertices.end())
+  {
+    cerr << "Starting vertex " << s << " not found in graph!\n";
+    return;
+  }
+
+  // Start DFS traversal
+  dfsTraversal(start_ptr->second);
+}
+
+// Protected recursive function to perform actual DFS at specified vertex
+// Follows algorithm given in Chapter 12 of GTM text
+  double totalweight = 0;
+void Graph::dfsTraversal(Vertex* v)
+{
+	
+  // TODO: 
+  
+  
+  
+  // Mark this vertex as visited
+  v->markVisited();
+  totalweight += v->get_weight();
+  // Get list of incident edges
+  EdgeIterator edge_iter = v->incidentEdges();
+
+  // for all incident edges
+  while(edge_iter.hasNext())
+  {
+    
+    Edge *e = edge_iter.nextEdge();
+   
+    
+    // if edge e is unexplored then
+    if(e->isVisited() == false)
+      {
+	// mark edge as visited
+	e->markVisited();
+	// get vertex w opposite v on e
+	Vertex *w = e->opposite(v);
+	// if vertex w is unexplored then
+	if( w->isVisited() == false)
+	  {
+	    // output e as tree edge
+	    cout<<*e<< " [color=red];" <<endl;
+	    
+	    cerr<<"Total Weight = " << totalweight<<endl;
+	    // recursively perform DFS
+	    dfsTraversal(w);
+	  }
+	// else output e as back edge
+	else
+	  cout<<*e<< " [color=green];"<<endl;
+      }
+    
+  }
+  
+
+  
+}
+

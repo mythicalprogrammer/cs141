@@ -1,0 +1,271 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+//////////////////////////////////////////////////////
+///
+///  Usage:
+///
+///    format_text text_width
+///
+///  reads lines of text on standard input, then
+///  prints the text, formatted, on standard output.
+///
+///  line breaking is done to minimize a penalty function.
+///
+//////////////////////////////////////////////////////
+
+using std::vector;
+using std::string;
+
+using std::cout;
+using std::cerr;
+using std::cin;
+using std::endl;
+
+#define DEFAULT_TEXT_WIDTH 60
+#define INT_INFINITY (1<<30)
+
+#define MIN(a,b) ((a)<(b)?(a):(b))
+
+// trim trailing blanks from a given string
+void
+trim(string& s) {
+  int i = s.size()-1;  
+  while (i >= 0 && s[i] == ' ')
+    --i;
+  s.erase(i+1);
+}
+
+// return the penalty associated with a given line
+int line_cost(string line, int text_width) {
+  trim(line);
+  int gap = text_width - line.size();
+  if (gap < 0) gap = -gap+50;
+  return gap*gap*gap;
+}
+
+//
+// given a sequence of n words, and integer text_width
+//
+// find the minimum total penalty possible for 
+// any formatting of words[0], words[1], ..., words[n-1]
+//
+// return the formatted text as a string
+//
+
+string
+format_paragraph(vector<string> words, int text_width) {
+  
+  int n = words.size();
+
+  int cost_table[n];
+  string para_table[n];  
+
+  // goal:
+  // cost_table[j] = min cost for words[j..n-1] 
+  // given that words[j] starts a line
+  //
+  // and para_table[i] = the formatted string that realizes cost_table[i]
+
+  // initialize
+
+  for (int i = 0;  i < n;  ++i) {
+    cost_table[i] = INT_INFINITY;
+    para_table[i] = "ERROR!";
+  }
+
+
+  // first, for j such that words j,j+1,...,n-1 all fit on a line
+  // set cost_table[j] = 0
+  // (special case: word[n-1] doesn't fit on a line, still allow it)
+
+  // YOUR CODE HERE
+
+
+  /*
+    Comment: 
+    
+    Initialization Stage
+    
+    This for loop is for the last line of the paragraph
+    I'm going to shove as many words as I can into the 
+    last line of the paragraph because the penalty cost
+    is zero.
+
+    -Hence, we do not take in account cost in this loop.
+   
+  */
+
+  
+  int length = words[n-1].size();
+  para_table[n-1] = words[n-1]; // where n-1 is the last index of the array
+  cost_table[n-1] = 0;
+  int i;
+
+  for(i = n-2; i >= 0; --i )
+    {
+      length += words[i].size() + 1;
+      if(length > text_width)
+	break;
+      para_table[i] = words[i] + " " + para_table[i+1];
+
+    } 
+  //para_table[i] += "\n";
+  /* int i;
+  string line="";
+  for(i = n-1; i >= 0; --i)
+    {
+      cost_table[i] = 0;
+      line = words[i] + " " + line;
+      if(line.size()> text_width)
+	break;
+	  para_table[i] = line + "\n";
+    } */
+
+  //int length = words[n-1].size();
+  /* 
+    para_table[n-1] = words[n-1]; // where n-1 is the last index of the array
+  cost_table[n-1] = 0;
+  int i;
+  string line = words[n-1];
+  for(i = n-2; i >= 0; --i )
+    {
+      line = words[i] + " " + line;
+      //line += words[i] + " ";
+      if(line.size()> text_width)
+	break;
+      para_table[i] = line + "\n";
+
+    } */
+
+  /*
+    DEBUG: Just to see if the above for loop works
+    
+    Friday Aug 24, 2:05 PM - I think it works
+
+  */
+
+  //for(int j = i; j <=n-1; ++j )
+  //cout<<para_table[j]<<endl;
+    
+  // next, for i = n-2, n-3, ..., 0, compute cost_table[i]
+  // (and para_table[i]) using the recurrence,
+  // based on the values cost_table[k+1] for k = j,j+1,...n-2
+
+  // YOUR CODE HERE
+
+  /*
+    Comments:
+    
+    -1st for loop:
+    begins where we left off in Intialization Stage
+    
+    
+  */
+  
+  int j; // j begins were we left off in Initial Stage
+  
+
+
+  
+  //int k_array[n-1];
+
+  for(j = i; j >= 0; --j)
+  {
+  
+      /*
+	Finding Minimum k
+	
+	-string line = words[j];
+	 ok, this will be our line;
+	 this loop will add more words to find the 
+	 minimum line cost the minimum cost is 
+	 updated by temp line cost
+
+
+	-int min_cost = line_cost(line, text_width);
+	 we'll assume this is the minimum line cost
+	 and as we add more words we'll calculate
+	 the line cost and store it in temp_cost
+	 
+	 we'll then compare it to min_cost and
+	 if temp_cost is smaller we'll save that
+	 and update the min_k
+	 
+     
+	
+	int min_k = j;
+	int temp_cost;
+
+      */
+  
+    string line =  words[j];
+    int min_cost = line_cost(line, text_width) + cost_table[j+1];
+    int temp_cost;
+    int min_k = j;
+    
+    for(int k = j+1; k <= n-1; ++k) 
+      {
+	if(line.size() > text_width)
+	  break;		
+	line += " " + words[k];
+       
+
+	if(k != n-1)  
+	  temp_cost = line_cost(line, text_width)+cost_table[k+1];
+	else
+	  temp_cost = line_cost(line, text_width);
+	if(temp_cost < min_cost)
+	  {
+	    min_cost = temp_cost;
+	    min_k = k;
+
+	  }
+	    
+	
+      }
+
+    cost_table[j] = min_cost;
+    
+    para_table[j] = line + "\n" + para_table[min_k+1];
+
+
+    
+  }
+
+
+  
+  //para_table[0] += "\n"; 
+  return para_table[0];
+}
+
+int main(int argc, char *argv[]) {
+
+  int text_width = DEFAULT_TEXT_WIDTH;
+
+  if (argc >= 2) {
+    text_width = atoi(argv[1]);
+  }
+
+  // read, format, and output a sequence of paragraphs
+  // (new paragraph starts with a word "<p>")
+
+  while (std::cin) {
+
+    // get paragraph
+    vector<string> words;
+    while (std::cin) {
+      string word;
+      std::cin >> word;
+      if (word.empty()) break;
+      if (word == "<p>") break;
+      words.push_back(word);
+    }
+
+    // output paragraph, formatted
+    if (words.empty()) continue;
+    cout << format_paragraph(words, text_width);
+    cout << endl;
+  }
+}

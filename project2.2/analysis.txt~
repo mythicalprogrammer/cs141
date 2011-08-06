@@ -1,0 +1,19 @@
+
+1. Precise specification of the algorithm you implemented:
+
+(YOUR ANSWER HERE -- 10-40 lines)
+
+2. Are you sure the algorithm is correct?  (Hopefully yes,
+but please be honest.)  Explain carefully why, in such a
+way that by reading what you've written, the reader can
+also understand clearly why the algorithm works.
+
+(YOUR ANSWER HERE -- 10-50 lines)
+
+3. Best upper bound you can give on the worst-case running time of your
+algorithm, and an explanation of why the upper bound is valid:
+
+Note: be careful here about the time taken for STL string operations.
+Copying or assigning a string takes time proportional to its size.
+
+(YOUR ANSWER HERE -- 10-50 lines)

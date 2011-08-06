@@ -1,0 +1,29 @@
+LAB 4
+
+1)
+
+a. 
+fun.txt 198 bytes
+huffman : 39 bytes - 80%
+gzip : 54 bytes - 72%
+bzip2: 72 bytes - 63%
+
+
+b.
+world95.txt 2.9 MB
+huffman : 1.8 MB - 38%
+gzip: 842.7 KB - 71%
+bzip2: 563.5 KB - 81%
+
+
+c.
+lab4 279.9 KB
+huffman : 197.5 KB - 29%
+gzip: 75.3 KB - 73%
+bzip2: 563.5 KB
+
+d.
+pdf: 60
+huff: 54 
+gzip: 48 
+bzip2: 48

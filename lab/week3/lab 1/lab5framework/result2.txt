@@ -1,0 +1,4 @@
+Enter sequence of integers for which to comput the LIS.
+Use whitespace to seperate integers.
+use EOF (Ctrl-D on new line) to end input.
+Sequence with LIS: 112 [1m[5m123[m 654 [1m[5m321[m 11 64567 [1m[5m345[m 123 33 8798 978 [1m[5m567[m [1m[5m782[m 21 3 6 [1m[5m324123[m 123 8 78 9

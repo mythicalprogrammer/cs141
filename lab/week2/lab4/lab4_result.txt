@@ -1,0 +1,60 @@
+Quoc Anh Doan qdoan
+Charles Ma    cma <--- he have pictures of craig as wallpaper.
+
+LAB 4
+
+1)
+
+a. 
+fun.txt 198 bytes
+huffman : 39 bytes - 80%
+gzip : 54 bytes - 72%
+bzip2: 72 bytes - 63%
+
+
+b.
+world95.txt 2.9 MB
+huffman : 1.8 MB - 38%
+gzip: 842.7 KB - 71%
+bzip2: 563.5 KB - 81%
+
+
+c.
+lab4 279.9 KB
+huffman : 197.5 KB - 29%
+gzip: 75.3 KB - 73%
+bzip2: 69.9 KB -75%
+
+d.
+pdf: 60
+huff: 54 - 10%
+gzip: 48 - 20%
+bzip2: 48 - 20%
+
+
+2)
+Huffman encoding yield the highest compression on fun.txt. 
+Apparently huffman encoding works for small txt files but I can't really say if
+huffman works because I don't know if our program have including
+the huffman dictionary to figure out for example 1100 represent A.
+
+3)
+Yes this is always optimal because always prefix but... apparently there are
+better encoding. 
+
+4)Base on the result I believe pdf have more hidden information that's probably
+  why huffman only encoded 10% compare to 20% on the other two. I also
+  think that pdf tries to compress too in it native format.
+
+5)It indicate that the more characters there are then the average length will 
+  bigger and huffman will be more inefficient. I cannot say how the other
+  compress formats work.
+
+6) a) Yes I would because it compress anyway even if their compress can be 
+      really really small because IT STILL COMPRESS compare to lossless
+      files.
+   b) I would compress small files because bigger file will increase
+      the average length of bit.
+
+7) There is no one best. Huffman is good for small files while bzip2 and other
+   compress file are intended for compressing huge files.

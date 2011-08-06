@@ -1,0 +1,24 @@
+Quoc Anh Doan
+860759993
+CS141
+July 30 2007
+
+S= 9 L = 21
+Factoring 1 elapsed time: 0.00 sec
+Factoring 2 elapsed time: 0.00 sec
+Factoring 3 elapsed time: 0.00 sec
+Factoring 4 elapsed time: 0.00 sec
+
+S = 100000, L = 200000
+Factoring 1 elapsed time: TOO LONG (Craig said so)
+Factoring 2 elapsed time: 0.02 sec
+Factoring 3 elapsed time: 0.02 sec
+Factoring 4 elapsed time: 0.00 sec
+
+
+S = L = 150000001
+Factoring 1 elapsed time: 138.81 sec
+Factoring 2 elapsed time: 0.02 sec
+Factoring 3 elapsed time: 0.02 sec
+Factoring 4 elapsed time: 0.00 sec
+

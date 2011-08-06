@@ -1,0 +1,83 @@
+Name: Quoc Anh Doan - 860759993
+Partner: Charles Ma
+
+
+1. Precise specification of the algorithm you implemented:
+
+(YOUR ANSWER HERE -- 10-40 lines)
+
+The algorithm that we tried to implement is described as a bottom up dynamic
+programming. 
+
+So the given algorithm is:
+
+      Given the words word[0], word[1], ..., word[n-1] in a paragraph,
+      define cost(j) = the minimum cost of formatting words
+      	     	       word[j], word[j+1], ..., word[n-1]
+		       into a paragraph with word[j] starting a line.
+
+   Then cost(0) is what you are after, and each cost(j) can be computed
+   quickly if you've already computed cost(j+1), cost(j+2), ... , cost(n-1).
+   The idea is that if words word[j], word[j+1], ..., word[n-1] fit on 
+   one line,then cost(j) = 0, and otherwise,
+
+       cost(j) = min { cost(k+1) + the penalty for a single line that 
+       contains words
+	                   word[j], word[j+1], ..., word[k] : k = j, j+1, 
+								  j+2, .., n-2}
+
+ At first I didn't know what the base case or special case was but
+ the base case was basically fit every words in the last line of the 
+ paragraph (since the last line of the paragraph cost zero). So
+ we did that. 
+ 
+ The next step was the start off where we stopped. Where ever we 
+ stopped at fitting the most words in the last line of the paragraph
+ is where we're going to start checking to find the minimum 
+ penalty with k more words. So for ever word we added (which is k) we
+ would analyze the cost of it and stored the minimal penalty.
+
+ This is how we would find the optimal penalty cost to format the 
+ paragraph.
+
+2. Are you sure the algorithm is correct?  (Hopefully yes,
+but please be honest.)  Explain carefully why, in such a
+way that by reading what you've written, the reader can
+also understand clearly why the algorithm works.
+
+(YOUR ANSWER HERE -- 10-50 lines)
+
+No, it didn't work. I tried asking Craig but it seems like it didn't
+work either. He helped us a lot. At first I tried my own way
+and got Cristo help during office hours but during lab Craig
+wanted us to do it in functions but anyway it doesn't work, to be honest.
+
+I have no idea why it didn't work. (probably because I'm lazy or
+I assumed to know how the algorithm works only to be proven wrong
+by my inability to code it >,>)
+
+To the reader of this text, the algorithm works by working backward
+starting at the last word of the paragraph and works it way up.
+
+The way it works is basically it checks line by line how to minimize
+the penalty base on add k more words to it and then it chooses the 
+best k.
+
+Maybe I didn't understand the algorithm so well. Anyway, that's what
+I thought how the algorithm goes.
+
+3. Best upper bound you can give on the worst-case running time of your
+algorithm, and an explanation of why the upper bound is valid:
+
+
+Note: be careful here about the time taken for STL string operations.
+Copying or assigning a string takes time proportional to its size.
+
+(YOUR ANSWER HERE -- 10-50 lines)
+
+My upper bound I guess O running time is..... 0 (n*m)
+
+It's should be n square but depending how large the paragraph is it can take
+m times to check each words for each line. Where n represent a loop
+going through each line and m is going through each words of each line to 
+find the optimal.

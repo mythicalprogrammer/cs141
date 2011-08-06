@@ -1,0 +1,103 @@
+Programming assignment 2, due 11:59pm, Sunday, August 26, 2007.
+
+Formatting text.
+
+Get started early, this one is harder than the last one.  If you get
+stuck, seek help at office hours right away.  You may work alone or
+in pairs.
+
+----------------------------------------------------------------
+
+Given a block of text, how does one insert line breaks so as to make
+the text fit nicely in a given width W?  We are assuming for simplicity
+that the text will be printed in a fixed-width font.
+
+One way is to do it greedily: consider the words in order and pack as
+much text on each line as will fit, with a space between each word.
+The code in the file format_text_greedily.cc does this.  To demonstrate
+this, compile that file (use shell command "make" to do that), then run
+the shell command
+
+     ./format_text_greedily < sample_text_short
+
+The routine formats the input and prints the formatted text.
+You can also specify some other desired width W.  For example, try
+
+    ./format_text_greedily 30 < sample_text_short
+
+This will pack the text into 30 columns.
+
+This greedy method can leave large gaps in the right margin.  Here's a
+different way that sometimes looks better.  The idea is to associate a
+penalty with each line of the output, and then to do the formatting to
+minimize the sum of those penalties.  Specifically, the penalty for a
+_line_ is the desired length W minus the actual length of the line,
+cubed.  (The length of the line is the sum of the lengths of the words,
+plus one for each space between successive words on the line.)
+The penalty for a _paragraph_ is the sum of the penalties of the
+lines in the paragraph, other than the last line.  And the penalty for
+_the entire text_ is the sum of the penalties of the paragraphs.
+
+To see an example of how these penalties are computed, run
+
+    ./format_text_greedily < sample_text_short | ./show_cost
+
+(Note: show_cost.cc should have been compiled by the first make.)
+
+Your assignment is to write a text formatter that, given the
+unformatted text and the desired width, will compute the formatting
+that _minimizes_ the resulting penalty.
+
+To do so, you must complete the routine format_paragraph() in
+the file format_text.cc, then compile that file (using "make").
+
+Once you have done so, you can use the shell command
+
+     make compare
+
+to compare your solution to the greedy solution.  You can also run
+your formatter directly using a command such as
+
+    ./format_text 60 < sample_text_short
+
+An executable -- format_text_soln -- that runs on eon has been
+provided for you to compare yours to.
+
+ADVICE: 
+
+1. Before you start coding, design your algorithm, AND think carefully
+   about how to implement it.  This problem is complicated enough that
+   getting a good algorithm and making good implementation choices
+   will save you lots of time.
+
+2. Use dynamic programming... your algorithm should be fast enough to
+   process the input file sample_text_long in a few seonds.
+
+3. I recommend using bottom-up dynamic programming  
+   The class of sub-problems I used for _my_ solution was the following:
+
+      Given the words word[0], word[1], ..., word[n-1] in a paragraph,
+      define cost(j) = the minimum cost of formatting words
+      	     	       word[j], word[j+1], ..., word[n-1]
+		       into a paragraph with word[j] starting a line.
+
+   Then cost(0) is what you are after, and each cost(j) can be computed
+   quickly if you've already computed cost(j+1), cost(j+2), ... , cost(n-1).
+   The idea is that if words word[j], word[j+1], ..., word[n-1] fit on one line,
+   then cost(j) = 0, and otherwise,
+
+	cost(j) = min { cost(k+1) + the penalty for a single line that contains words
+	                   word[j], word[j+1], ..., word[k] : k = j, j+1, j+2, .., n-2}
+			
+
+4. Keep track of not only each cost(j), but also the corresponding
+   formatted text (of words[j], words[j+1], ..., words[n-1]).
+   That way you can return the best formatting of the entire paragraph,
+   which is what your routine needs to do.
+
+5. It is likely that you will need to use the debugger.
+
+files to turn in:
+
+      format_text.cc  (modified to work)
+      analysis  --  analysis of your algorithm, see the file 'analysis' for details.

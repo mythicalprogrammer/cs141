@@ -1,0 +1,16 @@
+For extended Euclid:
+1a) a= 24563, b= 41451
+    a=34563 b=41451 d=123 x=6 y=-5
+
+1b) a = 41451 b=34563 
+    a=41451 b=34563 d=123 x=-5 y=6
+
+    A and B are related because gcd(a,b) = 1 = a*x + b*y
+				gcd(b,a) = 1 = b*x + a*y
+				since addition & multiplication 
+				is associtive and communative 
+				switching a and b in this formular
+				just switches the position as you 
+				can see above.
+
+
